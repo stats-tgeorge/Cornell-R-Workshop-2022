@@ -1,10 +1,9 @@
 ---
-title: "Welcome!"
-subtitle: "<br><br> Data Science in a Box"
-author: "[datasciencebox.org](https://datasciencebox.org/)  \nModified by Tyler George"
+title: "A Hands-on Introduction to RStudio  \n+    \nApplications in Art and the Humanities"
+author: "Tyler George   \nBased on Materials from   \nJulia Silge's Workshop   \n [https://juliasilge.github.io/tidytext-tutorial/site/](https://juliasilge.github.io/tidytext-tutorial/site/)    \n And Data Science in a Box by Mine Çetinkaya-Rundel   \n [https://datasciencebox.org/](https://datasciencebox.org/)"
 output:
   xaringan::moon_reader:
-    css: ["../xaringan-themer.css", "../slides.css"]
+    css: ["../xaringan-themer.css","../setup.css"]
     lib_dir: libs
     nature:
       ratio: "16:9"
@@ -13,10 +12,10 @@ output:
       countIncrementalSlides: false
 ---
 
+
 ```{r child = "../setup.Rmd"}
 ```
-
-```{r packages, echo=FALSE, message=FALSE, warning=FALSE, include= F}
+```{r packages, message=FALSE, warning=FALSE, include=FALSE}
 library(tidyverse)
 library(emo)
 packageVersion("xaringan")
@@ -25,15 +24,7 @@ library(sugrrants)
 library(lubridate)
 ```
 
-
-# Hello world!
-
----
-
-class: .my-one-page-font
-
 ## Data science
-
 
 .pull-left-wide[
 - Data science is an exciting discipline that allows you to turn raw data into understanding, insight, and knowledge. 
