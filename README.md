@@ -13,8 +13,8 @@ This faculty workshop is to introduce Cornell College faculty to R (primarily ti
 | You choose part of the adventure: choose wisley			|
 | Questions									|
 
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| Tables        | 
+| ------------- |
+| col 3 is      | 
+| col 2 is      | 
+| zebra stripes | 
