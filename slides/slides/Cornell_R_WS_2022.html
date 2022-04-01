@@ -16,9 +16,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# A Hands-on Introduction to RStudio<br />
-+<br />
-Applications in Art and the Humanities
+# A Hands-on Introduction to RStudio + Applications in Art and the Humanities
 ### Tyler George<br />
 Based on Materials from<br />
 Julia Silge’s Workshop<br />
@@ -34,7 +32,19 @@ And Data Science in a Box by Mine Çetinkaya-Rundel<br />
 
 
 
+## Learning goals
 
+By the end of the workshop, you will...
+
+- Have a general understanding of *what* R, RStudio and RStudio Server are. 
+- Be able to access the new RStudio Server on our campus. 
+- Understand reproducibility and why its an important piece of all of this!
+- Web scrape using *Inspector Gadget* in Google Chrome combined with the *rvest* package in R
+- Understand what data *cleaning* is all about. Specifically understand the *dplyr* functions
+- Run some text analysis and gain some insight on our scraped data
+
+
+---
 
 class: middle
 
@@ -42,224 +52,88 @@ class: middle
 
 ---
 
-&lt;img src="img/excel.png" width="75%" style="display: block; margin: auto auto auto 0;" /&gt;
+# Data! This is technically Excel...
+&lt;img src="img/excel.png" width="65%" style="display: block; margin: auto auto auto 0;" /&gt;
 
 ---
 
-&lt;img src="img/r.png" width="50%" style="display: block; margin: auto auto auto 0;" /&gt;
+# R programming
+&lt;img src="img/r.png" width="40%" style="display: block; margin: auto auto auto 0;" /&gt;
+Go [here](https://www.r-project.org/) to install on your own machine at another time. 
 
 ---
 
-&lt;img src="img/rstudio.png" width="73%" style="display: block; margin: auto auto auto 0;" /&gt;
+# R programming
 
+"R is a free software environment for statistical computing and graphics. It compiles and runs on a wide variety of UNIX platforms, Windows and MacOS." [r-project](https://www.r-project.org/)
 
----
-
-class: middle
-
-# Let's dive in!
-
----
-
-background-image: url("img/unvotes/unvotes-01.jpeg")
-
-???
-
-We are going to look at United Nations General Assembly and how countries have been voting.
+- This is still true but drastically understates its usefulness
+- Since R is free, people add to it using R *packages*.
+"Packages are the fundamental units of reproducible R code. They include reusable R functions, the documentation that describes how to use them, and sample data." [R Packages](https://r-pkgs.org/index.html)
+- At this point, at over 18 thousands packages there are packages for almost every imaginable purpose. This includes in the Arts and Humanities!
+- Packages are a collection of functions, and often datasets to use as examples in those functions. 
 
 ---
 
-class: inverse
+# R Package Examples
+Education
+[PsychBrief](https://psychbrief.com/r-packages-education/),
+[learnr](https://rstudio.github.io/learnr/)
 
-&lt;img src="img/unvotes/unvotes-02.jpeg" width="120%" style="display: block; margin: auto auto auto 0;" /&gt;
+English: Anything text analysis! 
+[Project Gutenberg](https://www.gutenberg.org/),
+[gutenbergr](https://cran.r-project.org/web/packages/gutenbergr/vignettes/intro.html)
 
----
+History 
+[Programming Historian](https://programminghistorian.org/en/), 
+[Jesse Sadler](https://www.rstudio.com/resources/rstudioconf-2019/learning-and-using-the-tidyverse-for-historical-research/)
 
-class: inverse
-.pull-left-wide[
-&lt;img src="img/unvotes/unvotes-02.jpeg" width="120%" style="display: block; margin: auto auto auto 0;" /&gt;
-]
-.pull-right-narrow[
-- Where can we find the issues for each visualization? 
-- Which countries are being visualized? 
-- What is our response? What is on our y-axis? 
-- What is our predictors? What is on the x-axis? 
-]
+Language
+[languageR](https://cran.r-project.org/web/packages/languageR/languageR.pdf)
 
----
-
-class: inverse
-
-&lt;img src="img/unvotes/unvotes-03.jpeg" width="120%" style="display: block; margin: auto;" /&gt;
+#### These clearly overlap! 
 
 ---
 
-class: inverse
-
-&lt;img src="img/unvotes/unvotes-04.jpeg" width="120%" style="display: block; margin: auto;" /&gt;
-
----
-
-class: inverse
-
-&lt;img src="img/unvotes/unvotes-05.jpeg" width="120%" style="display: block; margin: auto;" /&gt;
-
-???
-
-We call each plot square a facet; this will matter to us later
+# R Studio
+&lt;img src="img/rstudio.png" width="55%" style="display: block; margin: auto auto auto 0;" /&gt;
+Go [here](https://www.rstudio.com/products/rstudio/download/) to install on your own machine at another time. 
 
 ---
 
-class: inverse
-
-&lt;img src="img/unvotes/unvotes-06.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
-
-???
-
-- What do we notice about trends in Palestinian conflict or colonialism compared to the other plots when comparing countries? 
-- Does this make real world sense?
-- Real world vs out plots
+# R Markdown
+&lt;img src="img/unvotes/unvotes.gif" width="65%" style="display: block; margin: auto auto auto 0;" /&gt;
 
 ---
 
-class: inverse
+# R Markdown
 
-&lt;img src="img/unvotes/unvotes-07.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
+"R Markdown documents are fully reproducible. Use a productive notebook interface to weave together narrative text and code to produce elegantly formatted output. Use multiple languages including R, Python, and SQL." [R Markdown](https://rmarkdown.rstudio.com/)
 
-???
-
-- Making this vizz
-- Three different data set sources
+- Long story short, we will use RMarkdown as a built in extension to our RStudio. 
+- There is change coming to this soon. R Studio has released [quarto](https://quarto.org/)
 
 ---
 
-class: inverse
+# RStudio Server
 
-&lt;img src="img/unvotes/unvotes-08.jpeg" width="90%" style="display: block; margin: auto;" /&gt;
-
-???
-
-- We are not to coding yet!
-- Notice the three dataset names are all in here
-
----
-
-class: inverse
-
-&lt;img src="img/unvotes/unvotes-09.jpeg" width="90%" style="display: block; margin: auto;" /&gt;
-
-???
-
-To get the datasets together we used "joins"
+- Click [turing.cornellcollege.edu:8787/](http://turing.cornellcollege.edu:8787) to access the RStudio Server on campus. 
+- No installation necessary!
+- You only need a web browser - you can technically use this on your phones!
+- You need to be on campus or use the campus VPN on your work computers
+- This runs from a powerful server machine on our campus taken care of by Ajit Chavan in computer science
+- Block 8 is our final test block for using it with teaching
+- If there is enough interest we will setup one for student and faculty research and another for classes.
 
 ---
 
-class: inverse
+## Your new toolkit
 
-&lt;img src="img/unvotes/unvotes-10.jpeg" width="90%" style="display: block; margin: auto;" /&gt;
-
-???
-
-We then used something called "filter" and it our graph only shows data in the three countries we saw
-
----
-
-class: inverse
-
-&lt;img src="img/unvotes/unvotes-11.jpeg" width="90%" style="display: block; margin: auto;" /&gt;
-
-???
-
-- To great these plots we use something called "ggplot"
-- Together we joined data, filtered countries and generated the plots
-
----
-
-class: inverse
-
-&lt;img src="img/unvotes/unvotes-12.jpeg" width="90%" style="display: block; margin: auto;" /&gt;
-
-???
-
-- Some of these terms should make sense
----
-
-class: inverse
-
-&lt;img src="img/unvotes/unvotes-13.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
-
-???
-
-- Back to large code from earlier
-- "Rmarkdown" - analysis and prose together, allows us to put text and code together
-
----
-
-class: inverse
-
-&lt;img src="img/unvotes/unvotes-14.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
-
-???
-
-In an R markdown file we have some stuff at the top we need to specify. 
-
----
-
-.center[
-.large[
-[minecr.shinyapps.io/unvotes](https://minecr.shinyapps.io/unvotes/)
-]
-]
-
-&lt;img src="img/unvotes/unvotes-15.png" width="65%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Course toolkit
-
-&lt;br&gt;
-
-.pull-left[
-### .gray[Course operation]
-.gray[
-- Moodle
-]
-]
-.pull-right[
-### .pink[Doing data science]
 - .pink[Programming:]
   - .pink[R]
   - .pink[RStudio]
-  - .pink[tidyverse]
-  - .pink[R Markdown]
-- .gray[Version control and collaboration:]
-  - .gray[Git]
-  - .gray[GitHub]
-]
-
----
-
-## Learning goals
-
-By the end of the course, you will be able to...
-
---
-- use data carefully and ethically 
-
---
-- gain insight from data
-
---
-- gain insight from data, **reproducibly**
-
---
-- gain insight from data, reproducibly, **using modern programming tools and techniques**
-
---
-- gain insight from data, reproducibly **and collaboratively**, using modern programming tools and techniques
-
---
-- gain insight from data, reproducibly **(with literate programming and version control)** and collaboratively, using modern programming tools and techniques
+   - .pink[tidyverse]
+   - .pink[R Markdown (another day)]
 
 ---
 
