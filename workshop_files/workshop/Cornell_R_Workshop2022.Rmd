@@ -16,11 +16,10 @@ library(rvest)
 library(tidyverse)
 ```
 
-The University of Edinburgh Art Collection *"supports the world-leading research and teaching that happens within the University. Comprised of an astonishing range of objects and ideas spanning two millennia and a multitude of artistic forms, the collection reflects not only the long and rich trajectory of the University, but also major national and international shifts in art history."*[^lab-08-uoe-art-1].
+The University of Edinburgh Art Collection *"supports the world-leading research and teaching that happens within the University. Comprised of an astonishing range of objects and ideas spanning two millennia and a multitude of artistic forms, the collection reflects not only the long and rich trajectory of the University, but also major national and international shifts in art history."*.
 
-```{marginfigure}
-See the sidebar [here](https://collections.ed.ac.uk/art) and note that there are 2970 pieces in the art collection we're collecting data on. Note that more pieces may have been added or some pieces may have been removed between when this lab was written and when you're working on it.
-```
+See the collection [here](https://collections.ed.ac.uk/art) and note that there are 2970 pieces in the art collection we're collecting data on. Note that more pieces may have been added or some pieces may have been removed between when this lab was written and when you're working on it.
+
 
 In this lab we'll scrape data on all art pieces in the [Edinburgh College of Art collection](https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22).
 
@@ -102,7 +101,7 @@ Instead you'll be scraping the data!
 But before doing so, let's check that a bot has permissions to access pages on this domain.
 
 ```{r paths-allowed, warning=FALSE}
-paths_allowed("https://www.metmuseum.org/art/collection")
+paths_allowed("https://collections.ed.ac.uk/artn")
 ```
 
 # Exercises
@@ -159,9 +158,6 @@ page %>%
 
 And get rid of all the spurious white space in the text with `str_squish()`, which reduces repeated whitespace inside a string.
 
-```{marginfigure}
-Take a look at the help for `str_squish()` to find out more about how it works and how it's different from `str_trim()`.
-```
 
 ```{r}
 page %>%
@@ -179,6 +175,20 @@ titles <- page %>%
   html_node("h3 a") %>%
   html_text() %>%
   str_squish()
+```
+
+### Your turn: Try and use the scraped title text from above to scrape the artist
+
+```{marginfigure}
+**Tip:** The "eval=F" i the chunk name (between the { }) means if we *knit* this file it woun't evaluate the code in that chunk.
+```
+
+### Scrape Artist Names
+```{r scrape_artist_names,eval = F}
+artists <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node(".artist") %>%
+  ___
 ```
 
 ### Links
@@ -202,36 +212,91 @@ page %>%
   html_nodes(".iteminfo") %>%   # same nodes
   html_node("h3 a") %>%         # as before
   html_attr("href")             # but get href attribute instead of text
+
 ```
 
-These don't really look like URLs as we know then though.
-They're relative links.
+Click on one of art piece titles in your browser and take note of the url of the webpage it takes you to. Think about how that url compares to what we scraped above? 
 
-```{marginfigure}
-See the help for `str_replace()` to find out how it works. Remember that the first argument is passed in from the pipeline, so you just need to define the `pattern` and `replacement` arguments.
+We need url's that R can follow to scrape. We can modify these URL's but we can't copy and paste these ones for R and get the correct page. How can we modify these links to have them route to an actual art piece? Not in code lanauge, what part of the link needs changed? 
+
+
+We will use an R function `str_replace()` to fix the URLs. You may notice something special happening in the `pattern` to replace. We want to replace the `.`, but we have it as `\\.`. This is because the period `.` is a special character and so we need to *escape* it first with backslashes, `\\`s.
+
+### Scrape Links
+```{r scrape_links}
+links <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node("h3 a") %>%
+  html_attr("href") %>%
+  str_replace("\\.", "https://collections.ed.ac.uk/art") #relace all the dot with this new text
+links
 ```
-
-1.  Click on one of art piece titles in your browser and take note of the url of the webpage it takes you to. Think about how that url compares to what we scraped above? How is it different? Using `str_replace()`, fix the URLs. You'll note something special happening in the `pattern` to replace. We want to replace the `.`, but we have it as `\\.`. This is because the period `.` is a special character and so we need to escape it first with backslashes, `\\`s.
-
-### Artists
-
-2.  Fill in the blanks to scrape artist names.
 
 ### Put it altogether
 
-3.  Fill in the blanks to organize everything in a tibble.
+```{r put_all_together,eval=F}
+first_ten <- tibble(
+  title = titles,
+  artist = artists,
+  link = links
+)
+
+```
 
 ### Scrape the next page
 
-4.  Click on the next page, and grab its url. Fill in the blank in to define a new object: `second_url`. Copy-paste code from top of the R script to scrape the new set of art pieces, and save the resulting data frame as `second_ten`.
+We have only scraped the first page but there are over 2000 pieces spread across many pages. 
 
-✅ ⬆️ If you haven't done so recently, c*ommit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+On your browser, click to the next page, and grab its url. Fill in the blank in to define a new object: `second_url`. Copy-paste code from top of the R script to scrape the new set of art pieces, and save the resulting data frame as `second_ten`.
+
+# scrape second ten paintings --------------------------------------------------
+
+### Please paste your 2nd page of painting URL here
+second_url <- "___"
+
+page <- read_html(second_url)
+
+```{r scrape_titles_2nd_page}
+titles <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node("h3 a") %>%
+  html_text() %>%
+  str_squish()
+titles
+```
+
+```{r scrape_artist_2nd_page}
+artists <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node(".artist") %>%
+  html_text() 
+artists
+
+```
+
+```{r scrape_url_2nd_page}
+links <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node("h3 a") %>%
+  html_attr("href") %>%
+  str_replace("\\.", "https://collections.ed.ac.uk/art")
+links
+```
+
+```{r put_it_together_2nd_page}
+second_ten <- tibble(
+  title = titles,
+  artist = artists,
+  link = links
+)
+```
+
+Is any of this code different from page 1? 
+
+
+
 
 ## Functions
-
-::: {.box}
-Work in `scripts/02-scrape-page-function.R`.
-:::
 
 You've been using R functions, now it's time to write your own!
 
@@ -263,7 +328,7 @@ function_name <- function(input){
 Then, a function for scraping a page should look something like:
 
 ```{marginfigure}
-**Reminder:** Function names should be short but evocative verbs.
+**Hint:** Function names should be short but evocative verbs.
 ```
 
 ```{r}
@@ -274,31 +339,73 @@ function_name <- function(url){
 }
 ```
 
-5.  Fill in the blanks using code you already developed in the previous exercises. Name the function `scrape_page`.
+Our function uses the code you already developed earlier. We name the function `scrape_page`.
 
-Test out your new function by running the following in the console.
-Does the output look right?
-Discuss with teammates whether you're getting the same results as before.
+```{r our_own_function}
+scrape_page <- function(url){
+  
+  # read page
+  page <- read_html(url)
+  
+  # scrape titles
+  
+  titles <- page %>%
+html_nodes(".iteminfo") %>%
+  html_node("h3 a") %>%
+  html_text() %>%
+  str_squish()
+titles
 
-```{r eval=FALSE}
-scrape_page(first_url)
-scrape_page(second_url)
+  # scrape links
+
+  links <- page %>%
+html_nodes(".iteminfo") %>%
+  html_node("h3 a") %>%
+  html_attr("href") %>%
+  str_replace("\\.", "https://collections.ed.ac.uk/art")
+links
+  
+  # scrape artists 
+
+artists <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node(".artist") %>%
+  html_text() 
+artists
+  
+  # create and return tibble
+  tibble(
+  title = titles,
+  artist = artists,
+  link = links
+  )
+  
+}
+
 ```
 
-✅ ⬆️ If you haven't done so recently, c*ommit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+
+When you run this chunk, check out the "Environment" tab of the top right panel. There should now be a new category called "Functions"
+
+Test out your new function by running the following in the console. *You will need to copy and paste the URL's from the first and second web pages we used before
+
+Does the output look right?
+
+Discuss with table-mates whether you're getting the same results as before.
+
+```{r eval=FALSE}
+scrape_page(____first_URL______)
+scrape_page(____second_URL_____)
+```
+
 
 ## Iteration
-
-::: {.box}
-Work in `scripts/03-scrape-page-many.R`.
-:::
 
 We went from manually scraping individual pages to writing a function to do the same.
 Next, we will work on making our workflow a little more efficient by using R to iterate over all pages that contain information on the art collection.
 
-```{marginfigure}
+
 **Reminder:** The collection has 2970 pieces in total.
-```
 
 That means we give develop a list of URLs (of pages that each have 10 art pieces), and write some code that applies the `scrape_page()` function to each page, and combines the resulting data frames from each page into a single data frame with 2970 rows and 3 columns.
 
@@ -314,15 +421,22 @@ Click through the first few of the pages in the art collection and observe their
     [sometext]offset=2960  # Pieces 2961-2970
 
 We can construct these URLs in R by pasting together two pieces: (1) a common (`root`) text for the beginning of the URL, and (2) numbers starting at 0, increasing by 10, all the way up to 2970.
+
 Two new functions are helpful for accomplishing this: `glue()` for pasting two pieces of text and `seq()` for generating a sequence of numbers.
 
-6.  Fill in the blanks to construct the list of URLs.
+Fill in the blanks to construct the list of URLs.
+
+```{r construct_URLs, eval =F}
+root <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset="
+numbers <- seq(from = ___, to = ___, by = ___)
+urls <- glue("{___}{___}")
+```
 
 ### Mapping
 
 Finally, we're ready to iterate over the list of URLs we constructed.
 We will do this by **map**ping the function we developed over the list of URLs.
-There are a series of mapping functions in R (which we'll learn about in more detail tomorrow), and they each take the following form:
+There are a series of mapping functions in R, and they each take the following form:
 
     map([x], [function to apply to each element of x])
 
@@ -330,31 +444,45 @@ In our case `x` is the list of URLs we constructed and the function to apply to 
 And as a result we want a data frame, so we use `map_dfr` function:
 
 ```{r eval=FALSE}
-map_dfr(urls, scrape_page)
+map_dfr(urls, scrape_page) #this applies a function to the urls object
 ```
 
-7.  Fill in the blanks to scrape all pages, and to create a new data frame called `uoe_art`.
+Fill in the blanks to scrape all pages, and to create a new data frame called `uoe_art`.
+
+```{r map_our_function,eval=F}
+uoe_art <- map_dfr(__objects_we_want_to_apply_function_to___, ___our_function_name___)
+```
 
 ### Write out data
 
-8.  Finally write out the data frame you constructed into the `data` folder so that you can use it in the analysis section.
+Finally write out the data frame we constructed into the `data` folder so that you can use it in the analysis section.
 
-::: {.marker}
-Aim to make it to this point during the workshop.
-:::
+```{r write_data}
+write_csv(uoe_art, file = "data/uoe-art.csv")
+```
 
-✅ ⬆️ If you haven't done so recently, c*ommit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
 ## Analysis
+First, often you would clean up your R and before startign this stage. Let's do that. In the top right panel, click *environment*. Next click the little *broom*. This will clean out your environment. Note that if you did not save code creating something that that something will now be gone.
 
-::: {.box}
-Work in `lab-08.Rmd` for the rest of the lab.
-:::
+Now that we have a tidy dataset that we can analyze, let's do that! We nead to readin packges and the data we created. 
 
-Now that we have a tidy dataset that we can analyze, let's do that!
+### Load packages and data
+
+```{r load-packages, message = FALSE}
+library(tidyverse) 
+library(skimr)
+#library(sjmisc)
+```
+
+```{r load-data, message = FALSE, eval = TRUE}
+# Remove eval = FALSE or set it to TRUE once data is ready to be loaded
+uoe_art <- read_csv("data/uoe-art.csv")
+```
 
 We'll start with some data cleaning, to clean up the dates that appear at the end of some title text in parentheses.
 Some of these are years, others are more specific dates, some art pieces have no date information whatsoever, and others have some non-date information in parentheses.
+
 This should be interesting to clean up!
 
 First thing we'll try is to separate the `title` column into two: one for the actual `title` and the other for the `date` if it exists.
@@ -366,30 +494,71 @@ Luckily, there's a function that does just this: `separate()`!
 
 And once we have completed separating the single `title` column into `title` and `date`, we need to do further clean-up in the `date` column to get rid of extraneous `)`s with `str_remove()`, capture year information, and save the data as a numeric variable.
 
-```{marginfigure}
-**Hint:** Remember escaping special characters from yesterday's lecture? You'll need to use that trick again.
+**Hint:** Remember escaping special characters from earlier? We'll need to use that trick again.
+
+Here we are using our new functions and the separate, mutate, and select dplyr functions we spoke about earlier. Note that this will result in some warnings when you run the code, and that's OK! Read the warnings, and explain what they mean, and why we are ok with leaving them in given that our objective is to just capture `year` where it's convenient to do so.
+
+```{r separate-title-date, error = TRUE}
+uoe_art <- uoe_art %>%
+  separate(title, into = c("title", "date"), sep = "\\(") %>%
+  mutate(year = str_remove(date, "\\)") %>% 
+  as.numeric()) %>%
+  select(title, artist, year, date)
+uoe_art
 ```
 
-9.  Fill in the blanks in to implement the data wrangling we described above. Note that this will result in some warnings when you run the code, and that's OK! Read the warnings, and explain what they mean, and why we are ok with leaving them in given that our objective is to just capture `year` where it's convenient to do so.
-10. Print out a summary of the data frame using the `skim()` function. How many pieces have artist info missing? How many have year info missing?
-11. Make a histogram of years. Use a reasonable binwidth. Do you see anything out of the ordinary?
+This will print out a summary of the data frame using the `skim()` function. How many pieces have artist info missing? How many have year info missing?
 
-```{marginfigure}
-**Hint:** You'll want to use `mutate()` and `if_else()` or `case_when()` to implement the correction.
+```{r summary}
+
+skim(uoe_art)
+
 ```
 
-12. Find which piece has the out of the ordinary year and go to its page on the art collection website to find the correct year for it. Can you tell why our code didn't capture the correct year information? Correct the error in the data frame and visualize the data again.
 
-🧶 ✅ ⬆️ *If you haven't done so recently, knit, commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
+Next we make a histogram of years. Use a reasonable binwidth. Do you see anything out of the ordinary?
 
-13. Who is the most commonly featured artist in the collection? Do you know them? Any guess as to why the university has so many pieces from them?
+```{r histogram}
 
-```{marginfigure}
-**Hint:** `str_subset()` can be helful here. You should consider how you might capture titles where the word appears as "child" and "Child".
+ggplot(uoe_art, aes(x = year)) +
+  geom_histogram(binwidth = 10)
+
 ```
 
-14. Final question! How many art pieces have the word "child" in their title? Try to figure it out, and ask for help if you're stuck.
 
-🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.*
+Next we need to find which piece has the out of the ordinary year and go to its page on the art collection website to find the correct year for it. Can you tell why our code didn't capture the correct year information? Correct the error in the data frame and visualize the data again.
 
-[^lab-08-uoe-art-1]: Source: <https://collections.ed.ac.uk/art/about>
+
+This will give us just the piece with a year less than 1500
+```{r outlier}
+uoe_art%>%
+  filter(year < 1500)  
+```
+
+This code changes the year for that one painting to the correct year
+```{r outlier_fix}
+uoe_art <- uoe_art %>% mutate(year = ifelse(year == 2,1964,year)) 
+```
+
+Finally, we can see the fix worked
+```{r check_histogram}
+ggplot(uoe_art, aes(x = year)) +
+  geom_histogram(binwidth = 10)
+
+```
+
+Who is the most commonly featured artist in the collection? Do you know them? Any guess as to why the university has so many pieces from them?
+
+The *count* function will simply count the number of rows each artist has in our dataset. 
+```{r popular_artist}
+uoe_art%>%
+  count(artist, sort = TRUE)
+```
+
+
+How many art pieces have the word "child" in their title? Try to figure it out, and ask for help if you're stuck.
+
+```{r child}
+uoe_art%>%
+  filter(str_detect(title,"Child"))
+```
