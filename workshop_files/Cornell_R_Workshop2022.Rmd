@@ -11,9 +11,6 @@ link-citations: yes
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(eval = TRUE)
-library(robotstxt)
-library(rvest)
-library(tidyverse)
 ```
 
 The University of Edinburgh Art Collection *"supports the world-leading research and teaching that happens within the University. Comprised of an astonishing range of objects and ideas spanning two millennia and a multitude of artistic forms, the collection reflects not only the long and rich trajectory of the University, but also major national and international shifts in art history."*.
@@ -112,9 +109,6 @@ paths_allowed("https://collections.ed.ac.uk/artn")
 **Tip:** To run the code you can highlight or put your cursor next to the lines of code you want to run and hit Command+Enter.
 ```
 
-::: {.box}
-Work in `scripts/01-scrape-page-one.R`.
-:::
 
 We will start off by scraping data on the first 10 pieces in the collection from [here](https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=0).
 
@@ -232,6 +226,7 @@ links <- page %>%
 links
 ```
 
+
 ### Put it altogether
 
 ```{r put_all_together,eval=F}
@@ -248,8 +243,6 @@ first_ten <- tibble(
 We have only scraped the first page but there are over 2000 pieces spread across many pages. 
 
 On your browser, click to the next page, and grab its url. Fill in the blank in to define a new object: `second_url`. Copy-paste code from top of the R script to scrape the new set of art pieces, and save the resulting data frame as `second_ten`.
-
-# scrape second ten paintings --------------------------------------------------
 
 ### Please paste your 2nd page of painting URL here
 second_url <- "___"
@@ -292,8 +285,6 @@ second_ten <- tibble(
 ```
 
 Is any of this code different from page 1? 
-
-
 
 
 ## Functions
@@ -356,6 +347,14 @@ html_nodes(".iteminfo") %>%
   str_squish()
 titles
 
+  # scrape artists 
+
+artists <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node(".artist") %>%
+  html_text() 
+artists
+
   # scrape links
 
   links <- page %>%
@@ -364,14 +363,6 @@ html_nodes(".iteminfo") %>%
   html_attr("href") %>%
   str_replace("\\.", "https://collections.ed.ac.uk/art")
 links
-  
-  # scrape artists 
-
-artists <- page %>%
-  html_nodes(".iteminfo") %>%
-  html_node(".artist") %>%
-  html_text() 
-artists
   
   # create and return tibble
   tibble(
@@ -428,6 +419,8 @@ Fill in the blanks to construct the list of URLs.
 
 ```{r construct_URLs, eval =F}
 root <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset="
+
+# For time, lets only go up to 70
 numbers <- seq(from = ___, to = ___, by = ___)
 urls <- glue("{___}{___}")
 ```
@@ -453,26 +446,41 @@ Fill in the blanks to scrape all pages, and to create a new data frame called `u
 uoe_art <- map_dfr(__objects_we_want_to_apply_function_to___, ___our_function_name___)
 ```
 
+### Item description
+
+Now, for later use, I really want the items description. This information is not available on the search page like the other information we gather but it is available on each items individual page, which you created the links for. 
+
+```{r scape_description}
+add_description <- function(indv_page_url){
+    read_html(indv_page_url) %>%
+            html_node("tr:nth-child(5) span") %>%
+            html_text()%>%
+            str_squish()
+  }
+
+uoe_art <- uoe_art %>% mutate(description = map_chr(link,add_description))
+
+```
+
 ### Write out data
 
 Finally write out the data frame we constructed into the `data` folder so that you can use it in the analysis section.
 
-```{r write_data}
+```{r write_data,eval=F}
 write_csv(uoe_art, file = "data/uoe-art.csv")
 ```
 
 
 ## Analysis
-First, often you would clean up your R and before startign this stage. Let's do that. In the top right panel, click *environment*. Next click the little *broom*. This will clean out your environment. Note that if you did not save code creating something that that something will now be gone.
+First, often you would clean up your R and before starting this stage. Let's do that. In the top right panel, click *environment*. Next click the little *broom*. This will clean out your environment. Note that if you did not save code creating something that that something will now be gone.
 
-Now that we have a tidy dataset that we can analyze, let's do that! We nead to readin packges and the data we created. 
+Now that we have a tidy dataset that we can analyze, let's do that! We need to reading packages and the data we created. 
 
 ### Load packages and data
 
 ```{r load-packages, message = FALSE}
 library(tidyverse) 
 library(skimr)
-#library(sjmisc)
 ```
 
 ```{r load-data, message = FALSE, eval = TRUE}
@@ -503,16 +511,14 @@ uoe_art <- uoe_art %>%
   separate(title, into = c("title", "date"), sep = "\\(") %>%
   mutate(year = str_remove(date, "\\)") %>% 
   as.numeric()) %>%
-  select(title, artist, year, date)
+  select(title, artist, year, date, description)
 uoe_art
 ```
 
 This will print out a summary of the data frame using the `skim()` function. How many pieces have artist info missing? How many have year info missing?
 
 ```{r summary}
-
 skim(uoe_art)
-
 ```
 
 
@@ -526,28 +532,7 @@ ggplot(uoe_art, aes(x = year)) +
 ```
 
 
-Next we need to find which piece has the out of the ordinary year and go to its page on the art collection website to find the correct year for it. Can you tell why our code didn't capture the correct year information? Correct the error in the data frame and visualize the data again.
-
-
-This will give us just the piece with a year less than 1500
-```{r outlier}
-uoe_art%>%
-  filter(year < 1500)  
-```
-
-This code changes the year for that one painting to the correct year
-```{r outlier_fix}
-uoe_art <- uoe_art %>% mutate(year = ifelse(year == 2,1964,year)) 
-```
-
-Finally, we can see the fix worked
-```{r check_histogram}
-ggplot(uoe_art, aes(x = year)) +
-  geom_histogram(binwidth = 10)
-
-```
-
-Who is the most commonly featured artist in the collection? Do you know them? Any guess as to why the university has so many pieces from them?
+Who is the most commonly featured artist in the collection? Do you know them? 
 
 The *count* function will simply count the number of rows each artist has in our dataset. 
 ```{r popular_artist}
@@ -562,3 +547,154 @@ How many art pieces have the word "child" in their title? Try to figure it out, 
 uoe_art%>%
   filter(str_detect(title,"Child"))
 ```
+
+
+## Basic Text Analysis
+
+## Packages
+In addition to `tidyverse` we will be using other packages today
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidytext)
+library(wordcloud)# Making wordclouds
+library(DT) 
+library(stopwords)
+```
+
+## Tidytext
+
+- Using tidy data principles can make many text mining tasks easier, more effective, and consistent with tools already in wide use.
+- Learn more at <https://www.tidytextmining.com/>.
+
+## What is tidy text?
+
+```{r}
+text <- uoe_art$description[1] # This just selects the first row description
+
+text
+```
+
+```{r}
+text_df <- tibble(line=1,text = text)
+
+text_df
+```
+
+```{r}
+text_df %>%
+  unnest_tokens(word, text)
+```
+
+#### Turn all of our descriptions into tidy text, and look for commonalities
+
+```{r}
+uoe_art %>%
+  unnest_tokens(word, description) %>%
+  count(word, sort = TRUE)
+```
+
+#### Stop words
+
+- In computing, stop words are words which are filtered out before or after processing of natural language data (text).
+- They usually refer to the most common words in a language, but there is not a single list of stop words used by all natural language processing tools.
+
+
+#### English stop words
+
+```{r}
+get_stopwords()
+```
+
+
+#### Spanish stop words
+
+```{r}
+get_stopwords(language = "es")
+```
+
+#### Various lexicons
+
+See `?get_stopwords` for more info.
+
+```{r}
+get_stopwords(source = "smart")
+```
+
+#### Back to looking for commonalities
+
+```{r}
+uoe_art %>%
+  unnest_tokens(word, description) %>%
+  anti_join(stop_words)%>%
+  count(word, sort = TRUE)
+
+```
+
+#### Top 20 common words in the descriptions
+```{r message=FALSE}
+top20_words <- uoe_art %>%
+  unnest_tokens(word, description) %>%
+  anti_join(stop_words) %>%
+  count(word) %>%
+  top_n(20)
+
+top20_words %>%
+  arrange(desc(n))
+```
+
+#### Visualizing commonalities: bar chart
+```{r}
+top20_words %>%
+  ggplot(aes(x = fct_reorder(word, n), y = n)) +
+  geom_col() +
+  labs(x = "Common words", y = "Count") +
+  coord_flip()
+```
+
+#### Visualizing commonalities: wordcloud
+
+```{r}
+set.seed(1234)
+wordcloud(words = top20_words$word, 
+          freq = top20_words$n, 
+          colors = brewer.pal(5,"Blues"),
+          random.order = FALSE)
+#Note: You may need to increase the size of your plot area to get this to display properly
+```
+
+
+## N-grams... and BEYOND
+
+N-grams are connections of words.
+
+```{r}
+tidy_ngram <- uoe_art %>%
+  unnest_tokens(input = description,output=bigram,token="ngrams",n=2)%>%   #<
+  dplyr::filter(!is.na(bigram))
+
+tidy_ngram
+```
+
+#### What are the most common bigrams?
+
+What found do we use to count items? 
+
+```{r}
+tidy_ngram %>%
+  ____(bigram,sort = T)       #<
+```
+
+#### Let's use `separate()` from tidyr to remove stop words.
+
+```{r}
+bigram_counts <- tidy_ngram %>%
+  separate(bigram,c("word1","word2"),sep=" ") %>%
+  filter(!word1 %in% stop_words$word,
+         !word2 %in% stop_words$word) %>%
+  count(word1, word2, sort = TRUE)
+
+bigram_counts
+```
+
+### Free time! We can explore more down either direction. 

@@ -146,8 +146,8 @@ Source: Data Science in a Box by Mine Çetinkaya-Rundel</h4>
 
 
 
-<p>The University of Edinburgh Art Collection <em>“supports the world-leading research and teaching that happens within the University. Comprised of an astonishing range of objects and ideas spanning two millennia and a multitude of artistic forms, the collection reflects not only the long and rich trajectory of the University, but also major national and international shifts in art history.”</em><label for="tufte-sn-1" class="margin-toggle sidenote-number">1</label><input type="checkbox" id="tufte-sn-1" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">1</span> Source: <a href="https://collections.ed.ac.uk/art/about" class="uri">https://collections.ed.ac.uk/art/about</a></span>.</p>
-<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the sidebar <a href="https://collections.ed.ac.uk/art">here</a> and note that there are 2970 pieces in the art collection we’re collecting data on. Note that more pieces may have been added or some pieces may have been removed between when this lab was written and when you’re working on it.</span></span></p>
+<p>The University of Edinburgh Art Collection <em>“supports the world-leading research and teaching that happens within the University. Comprised of an astonishing range of objects and ideas spanning two millennia and a multitude of artistic forms, the collection reflects not only the long and rich trajectory of the University, but also major national and international shifts in art history.”</em>.</p>
+<p>See the collection <a href="https://collections.ed.ac.uk/art">here</a> and note that there are 2970 pieces in the art collection we’re collecting data on. Note that more pieces may have been added or some pieces may have been removed between when this lab was written and when you’re working on it.</p>
 <p>In this lab we’ll scrape data on all art pieces in the <a href="https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22">Edinburgh College of Art collection</a>.</p>
 <div id="learning-goals-change-out" class="section level1">
 <h1>Learning goals CHANGE OUT</h1>
@@ -206,9 +206,9 @@ Source: Data Science in a Box by Mine Çetinkaya-Rundel</h4>
 <div id="data" class="section level2">
 <h2>Data</h2>
 <p>This assignment does not come with any prepared datasets. Instead you’ll be scraping the data! But before doing so, let’s check that a bot has permissions to access pages on this domain.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paths_allowed</span>(<span class="st">&quot;https://www.metmuseum.org/art/collection&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paths_allowed</span>(<span class="st">&quot;https://collections.ed.ac.uk/artn&quot;</span>)</span></code></pre></div>
 <pre><code>## 
- www.metmuseum.org</code></pre>
+ collections.ed.ac.uk</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 </div>
@@ -216,7 +216,7 @@ Source: Data Science in a Box by Mine Çetinkaya-Rundel</h4>
 <h1>Exercises</h1>
 <div id="scraping-a-single-page" class="section level2">
 <h2>Scraping a single page</h2>
-<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Tip:</strong> To run the code you can highlight or put your cursor next to the lines of code you want to run and hit Command+Enter.</span></span></p>
+<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Tip:</strong> To run the code you can highlight or put your cursor next to the lines of code you want to run and hit Command+Enter.</span></span></p>
 <div class="box">
 <p>Work in <code>scripts/01-scrape-page-one.R</code>.</p>
 </div>
@@ -238,56 +238,66 @@ Source: Data Science in a Box by Mine Çetinkaya-Rundel</h4>
 </p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>)</span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;.record-title&quot;</span>)</span></code></pre></div>
 <pre><code>## {xml_nodeset (10)}
-##  [1] &lt;a href=&quot;./record/50418?highlight=*:*&quot;&gt;Unknown                           ...
-##  [2] &lt;a href=&quot;./record/21654?highlight=*:*&quot;&gt;Ashes and Diamonds                ...
-##  [3] &lt;a href=&quot;./record/21408?highlight=*:*&quot;&gt;Portrait of a Man                 ...
-##  [4] &lt;a href=&quot;./record/21056?highlight=*:*&quot;&gt;Portrait of a Young Man           ...
-##  [5] &lt;a href=&quot;./record/21036?highlight=*:*&quot;&gt;Drawing of Reclining Nude Sculptu ...
-##  [6] &lt;a href=&quot;./record/21791?highlight=*:*&quot;&gt;Untitled                          ...
-##  [7] &lt;a href=&quot;./record/20999?highlight=*:*&quot;&gt;Portrait of a Seated Woman        ...
-##  [8] &lt;a href=&quot;./record/47456?highlight=*:*&quot;&gt;Obstacle - Exploded Drawing       ...
-##  [9] &lt;a href=&quot;./record/53677?highlight=*:*&quot;&gt;Milk Jug                          ...
-## [10] &lt;a href=&quot;./record/20757?highlight=*:*&quot;&gt;Still Life with Teapot            ...</code></pre>
+##  [1] &lt;h3 class=&quot;record-title&quot;&gt;\n                                &lt;a href=&quot;./re ...
+##  [2] &lt;h3 class=&quot;record-title&quot;&gt;\n                                &lt;a href=&quot;./re ...
+##  [3] &lt;h3 class=&quot;record-title&quot;&gt;\n                                &lt;a href=&quot;./re ...
+##  [4] &lt;h3 class=&quot;record-title&quot;&gt;\n                                &lt;a href=&quot;./re ...
+##  [5] &lt;h3 class=&quot;record-title&quot;&gt;\n                                &lt;a href=&quot;./re ...
+##  [6] &lt;h3 class=&quot;record-title&quot;&gt;\n                                &lt;a href=&quot;./re ...
+##  [7] &lt;h3 class=&quot;record-title&quot;&gt;\n                                &lt;a href=&quot;./re ...
+##  [8] &lt;h3 class=&quot;record-title&quot;&gt;\n                                &lt;a href=&quot;./re ...
+##  [9] &lt;h3 class=&quot;record-title&quot;&gt;\n                                &lt;a href=&quot;./re ...
+## [10] &lt;h3 class=&quot;record-title&quot;&gt;\n                                &lt;a href=&quot;./re ...</code></pre>
 <p>Then we extract the text with <code>html_text()</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;.record-title&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>()</span></code></pre></div>
-<pre><code>##  [1] &quot;Unknown                                                                            (1985)&quot;                                   
-##  [2] &quot;Ashes and Diamonds                                                                            (Unknown)&quot;                     
-##  [3] &quot;Portrait of a Man                                                                            (1954)&quot;                         
-##  [4] &quot;Portrait of a Young Man                                                                            (1950)&quot;                   
-##  [5] &quot;Drawing of Reclining Nude Sculpture                                                                            (15 May 1950)&quot;
-##  [6] &quot;Untitled                                                                            (2004)&quot;                                  
-##  [7] &quot;Portrait of a Seated Woman                                    &quot;                                                              
-##  [8] &quot;Obstacle - Exploded Drawing                                                                            (2014)&quot;               
-##  [9] &quot;Milk Jug                                    &quot;                                                                                
-## [10] &quot;Still Life with Teapot                                    &quot;</code></pre>
+<pre><code>##  [1] &quot;\n                                Stretching Male Nude                                                                            (Circa 1953)&quot;     
+##  [2] &quot;\n                                Standing Male Nude                                                                            (1960)&quot;             
+##  [3] &quot;\n                                Wildflowers and Butterfly                                                                            (Circa 1954)&quot;
+##  [4] &quot;\n                                Light Around Limbo                                                                            (2016)&quot;             
+##  [5] &quot;\n                                Untitled                                                                            (2002)&quot;                       
+##  [6] &quot;\n                                Untitled - City Highrise                                                                            (Feb 1962)&quot;   
+##  [7] &quot;\n                                Untitled                                                                            (1960)&quot;                       
+##  [8] &quot;\n                                Unknown                                                                            (1958)&quot;                        
+##  [9] &quot;\n                                Untitled                                                                            (1969)&quot;                       
+## [10] &quot;\n                                Abstract Composition                                                                            (1962)&quot;</code></pre>
 <p>And get rid of all the spurious white space in the text with <code>str_squish()</code>, which reduces repeated whitespace inside a string.</p>
-<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;">Take a look at the help for <code>str_squish()</code> to find out more about how it works and how it’s different from <code>str_trim()</code>.</span></span></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;.record-title&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_squish</span>()</span></code></pre></div>
-<pre><code>##  [1] &quot;Unknown (1985)&quot;                                   
-##  [2] &quot;Ashes and Diamonds (Unknown)&quot;                     
-##  [3] &quot;Portrait of a Man (1954)&quot;                         
-##  [4] &quot;Portrait of a Young Man (1950)&quot;                   
-##  [5] &quot;Drawing of Reclining Nude Sculpture (15 May 1950)&quot;
-##  [6] &quot;Untitled (2004)&quot;                                  
-##  [7] &quot;Portrait of a Seated Woman&quot;                       
-##  [8] &quot;Obstacle - Exploded Drawing (2014)&quot;               
-##  [9] &quot;Milk Jug&quot;                                         
-## [10] &quot;Still Life with Teapot&quot;</code></pre>
+<pre><code>##  [1] &quot;Stretching Male Nude (Circa 1953)&quot;     
+##  [2] &quot;Standing Male Nude (1960)&quot;             
+##  [3] &quot;Wildflowers and Butterfly (Circa 1954)&quot;
+##  [4] &quot;Light Around Limbo (2016)&quot;             
+##  [5] &quot;Untitled (2002)&quot;                       
+##  [6] &quot;Untitled - City Highrise (Feb 1962)&quot;   
+##  [7] &quot;Untitled (1960)&quot;                       
+##  [8] &quot;Unknown (1958)&quot;                        
+##  [9] &quot;Untitled (1969)&quot;                       
+## [10] &quot;Abstract Composition (1962)&quot;</code></pre>
 <p>And finally save the resulting data as a vector of length 10:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>titles <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_squish</span>()</span></code></pre></div>
+</div>
+<div id="your-turn-try-and-use-the-scraped-title-text-from-above-to-scrape-the-artist" class="section level3">
+<h3>Your turn: Try and use the scraped title text from above to scrape the artist</h3>
+<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Tip:</strong> The “eval=F” i the chunk name (between the { }) means if we <em>knit</em> this file it woun’t evaluate the code in that chunk.</span></span></p>
+</div>
+<div id="scrape-artist-names" class="section level3">
+<h3>Scrape Artist Names</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>artists <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;.artist&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  ___</span></code></pre></div>
 </div>
 <div id="links" class="section level3">
 <h3>Links</h3>
@@ -297,83 +307,182 @@ Source: Data Science in a Box by Mine Çetinkaya-Rundel</h4>
 <p>And this is how the text would look like on a webpage: <a href="https://www.google.com">Seach on Google</a>.</p>
 <p>Here the text is <code>Seach on Google</code> and the <code>href</code> attribute contains the url of the website you’d go to if you click on the hyperlinked text: <code>https://www.google.com</code>.</p>
 <p>The moral of the story is: the link is stored in the <code>href</code> attribute.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span>   <span class="co"># same nodes</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>) <span class="sc">%&gt;%</span>         <span class="co"># as before</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>)             <span class="co"># but get href attribute instead of text</span></span></code></pre></div>
-<pre><code>##  [1] &quot;./record/50418?highlight=*:*&quot; &quot;./record/21654?highlight=*:*&quot;
-##  [3] &quot;./record/21408?highlight=*:*&quot; &quot;./record/21056?highlight=*:*&quot;
-##  [5] &quot;./record/21036?highlight=*:*&quot; &quot;./record/21791?highlight=*:*&quot;
-##  [7] &quot;./record/20999?highlight=*:*&quot; &quot;./record/47456?highlight=*:*&quot;
-##  [9] &quot;./record/53677?highlight=*:*&quot; &quot;./record/20757?highlight=*:*&quot;</code></pre>
-<p>These don’t really look like URLs as we know then though. They’re relative links.</p>
-<p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the help for <code>str_replace()</code> to find out how it works. Remember that the first argument is passed in from the pipeline, so you just need to define the <code>pattern</code> and <code>replacement</code> arguments.</span></span></p>
-<ol style="list-style-type: decimal">
-<li>Click on one of art piece titles in your browser and take note of the url of the webpage it takes you to. Think about how that url compares to what we scraped above? How is it different? Using <code>str_replace()</code>, fix the URLs. You’ll note something special happening in the <code>pattern</code> to replace. We want to replace the <code>.</code>, but we have it as <code>\\.</code>. This is because the period <code>.</code> is a special character and so we need to escape it first with backslashes, <code>\\</code>s.</li>
-</ol>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span>   <span class="co"># same nodes</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>) <span class="sc">%&gt;%</span>         <span class="co"># as before</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>)             <span class="co"># but get href attribute instead of text</span></span></code></pre></div>
+<pre><code>##  [1] &quot;./record/20949?highlight=*:*&quot; &quot;./record/20806?highlight=*:*&quot;
+##  [3] &quot;./record/22627?highlight=*:*&quot; &quot;./record/99263?highlight=*:*&quot;
+##  [5] &quot;./record/99954?highlight=*:*&quot; &quot;./record/99482?highlight=*:*&quot;
+##  [7] &quot;./record/99838?highlight=*:*&quot; &quot;./record/50524?highlight=*:*&quot;
+##  [9] &quot;./record/99830?highlight=*:*&quot; &quot;./record/21280?highlight=*:*&quot;</code></pre>
+<p>Click on one of art piece titles in your browser and take note of the url of the webpage it takes you to. Think about how that url compares to what we scraped above?</p>
+<p>We need url’s that R can follow to scrape. We can modify these URL’s but we can’t copy and paste these ones for R and get the correct page. How can we modify these links to have them route to an actual art piece? Not in code lanauge, what part of the link needs changed?</p>
+<p>We will use an R function <code>str_replace()</code> to fix the URLs. You may notice something special happening in the <code>pattern</code> to replace. We want to replace the <code>.</code>, but we have it as <code>\\.</code>. This is because the period <code>.</code> is a special character and so we need to <em>escape</em> it first with backslashes, <code>\\</code>s.</p>
 </div>
-<div id="artists" class="section level3">
-<h3>Artists</h3>
-<ol start="2" style="list-style-type: decimal">
-<li>Fill in the blanks to scrape artist names.</li>
-</ol>
+<div id="scrape-links" class="section level3">
+<h3>Scrape Links</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot;https://collections.ed.ac.uk/art&quot;</span>) <span class="co">#relace all the dot with this new text</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>links</span></code></pre></div>
+<pre><code>##  [1] &quot;https://collections.ed.ac.uk/art/record/20949?highlight=*:*&quot;
+##  [2] &quot;https://collections.ed.ac.uk/art/record/20806?highlight=*:*&quot;
+##  [3] &quot;https://collections.ed.ac.uk/art/record/22627?highlight=*:*&quot;
+##  [4] &quot;https://collections.ed.ac.uk/art/record/99263?highlight=*:*&quot;
+##  [5] &quot;https://collections.ed.ac.uk/art/record/99954?highlight=*:*&quot;
+##  [6] &quot;https://collections.ed.ac.uk/art/record/99482?highlight=*:*&quot;
+##  [7] &quot;https://collections.ed.ac.uk/art/record/99838?highlight=*:*&quot;
+##  [8] &quot;https://collections.ed.ac.uk/art/record/50524?highlight=*:*&quot;
+##  [9] &quot;https://collections.ed.ac.uk/art/record/99830?highlight=*:*&quot;
+## [10] &quot;https://collections.ed.ac.uk/art/record/21280?highlight=*:*&quot;</code></pre>
 </div>
 <div id="put-it-altogether" class="section level3">
 <h3>Put it altogether</h3>
-<ol start="3" style="list-style-type: decimal">
-<li>Fill in the blanks to organize everything in a tibble.</li>
-</ol>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>first_ten <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> titles,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">artist =</span> artists,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> links</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <div id="scrape-the-next-page" class="section level3">
 <h3>Scrape the next page</h3>
-<ol start="4" style="list-style-type: decimal">
-<li>Click on the next page, and grab its url. Fill in the blank in to define a new object: <code>second_url</code>. Copy-paste code from top of the R script to scrape the new set of art pieces, and save the resulting data frame as <code>second_ten</code>.</li>
-</ol>
-<p>✅ ⬆️ If you haven’t done so recently, c<em>ommit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.</em></p>
+<p>We have only scraped the first page but there are over 2000 pieces spread across many pages.</p>
+<p>On your browser, click to the next page, and grab its url. Fill in the blank in to define a new object: <code>second_url</code>. Copy-paste code from top of the R script to scrape the new set of art pieces, and save the resulting data frame as <code>second_ten</code>.</p>
 </div>
+</div>
+</div>
+<div id="scrape-second-ten-paintings" class="section level1">
+<h1>scrape second ten paintings ————————————————–</h1>
+<div id="please-paste-your-2nd-page-of-painting-url-here" class="section level3">
+<h3>Please paste your 2nd page of painting URL here</h3>
+<p>second_url &lt;- “___”</p>
+<p>page &lt;- read_html(second_url)</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>titles <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_squish</span>()</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>titles</span></code></pre></div>
+<pre><code>##  [1] &quot;Stretching Male Nude (Circa 1953)&quot;     
+##  [2] &quot;Standing Male Nude (1960)&quot;             
+##  [3] &quot;Wildflowers and Butterfly (Circa 1954)&quot;
+##  [4] &quot;Light Around Limbo (2016)&quot;             
+##  [5] &quot;Untitled (2002)&quot;                       
+##  [6] &quot;Untitled - City Highrise (Feb 1962)&quot;   
+##  [7] &quot;Untitled (1960)&quot;                       
+##  [8] &quot;Unknown (1958)&quot;                        
+##  [9] &quot;Untitled (1969)&quot;                       
+## [10] &quot;Abstract Composition (1962)&quot;</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>artists <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;.artist&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>() </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>artists</span></code></pre></div>
+<pre><code>##  [1] &quot;Valerie Donaldson&quot;   &quot;Thomas T Robertson&quot;  &quot;John P Busby&quot;       
+##  [4] &quot;Joseph Glover&quot;       &quot;Sarah Sanford&quot;       &quot;William Gillon&quot;     
+##  [7] &quot;Elizabeth M. Hansen&quot; &quot;Andrew P. W. Conkie&quot; &quot;Richard Easson&quot;     
+## [10] &quot;James T Carlyle&quot;</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot;https://collections.ed.ac.uk/art&quot;</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>links</span></code></pre></div>
+<pre><code>##  [1] &quot;https://collections.ed.ac.uk/art/record/20949?highlight=*:*&quot;
+##  [2] &quot;https://collections.ed.ac.uk/art/record/20806?highlight=*:*&quot;
+##  [3] &quot;https://collections.ed.ac.uk/art/record/22627?highlight=*:*&quot;
+##  [4] &quot;https://collections.ed.ac.uk/art/record/99263?highlight=*:*&quot;
+##  [5] &quot;https://collections.ed.ac.uk/art/record/99954?highlight=*:*&quot;
+##  [6] &quot;https://collections.ed.ac.uk/art/record/99482?highlight=*:*&quot;
+##  [7] &quot;https://collections.ed.ac.uk/art/record/99838?highlight=*:*&quot;
+##  [8] &quot;https://collections.ed.ac.uk/art/record/50524?highlight=*:*&quot;
+##  [9] &quot;https://collections.ed.ac.uk/art/record/99830?highlight=*:*&quot;
+## [10] &quot;https://collections.ed.ac.uk/art/record/21280?highlight=*:*&quot;</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>second_ten <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> titles,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">artist =</span> artists,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> links</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Is any of this code different from page 1?</p>
 </div>
 <div id="functions" class="section level2">
 <h2>Functions</h2>
-<div class="box">
-<p>Work in <code>scripts/02-scrape-page-function.R</code>.</p>
-</div>
 <p>You’ve been using R functions, now it’s time to write your own!</p>
 <p>Let’s start simple. Here is a function that takes in an argument <code>x</code>, and adds 2 to it.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>add_two <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">+</span> <span class="dv">2</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>add_two <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Let’s test it:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_two</span>(<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_two</span>(<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_two</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_two</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] 12</code></pre>
 <p>The skeleton for defining functions in R is as follows:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(input){</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># do something with the input(s)</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return something</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(input){</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># do something with the input(s)</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return something</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Then, a function for scraping a page should look something like:</p>
-<p><label for="tufte-mn-5" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-5" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Reminder:</strong> Function names should be short but evocative verbs.</span></span></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(url){</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># read page at url</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract title, link, artist info for n pieces on page</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return a n x 3 tibble</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<ol start="5" style="list-style-type: decimal">
-<li>Fill in the blanks using code you already developed in the previous exercises. Name the function <code>scrape_page</code>.</li>
-</ol>
-<p>Test out your new function by running the following in the console. Does the output look right? Discuss with teammates whether you’re getting the same results as before.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_page</span>(first_url)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_page</span>(second_url)</span></code></pre></div>
-<p>✅ ⬆️ If you haven’t done so recently, c<em>ommit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.</em></p>
+<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Hint:</strong> Function names should be short but evocative verbs.</span></span></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(url){</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># read page at url</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract title, link, artist info for n pieces on page</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return a n x 3 tibble</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Our function uses the code you already developed earlier. We name the function <code>scrape_page</code>.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>scrape_page <span class="ot">&lt;-</span> <span class="cf">function</span>(url){</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># read page</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scrape titles</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  titles <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_squish</span>()</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>titles</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scrape links</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  links <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;h3 a&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attr</span>(<span class="st">&quot;href&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot;https://collections.ed.ac.uk/art&quot;</span>)</span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>links</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scrape artists </span></span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>artists <span class="ot">&lt;-</span> page <span class="sc">%&gt;%</span></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;.iteminfo&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">&quot;.artist&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>() </span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>artists</span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create and return tibble</span></span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> titles,</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">artist =</span> artists,</span>
+<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> links</span>
+<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>When you run this chunk, check out the “Environment” tab of the top right panel. There should now be a new category called “Functions”</p>
+<p>Test out your new function by running the following in the console. *You will need to copy and paste the URL’s from the first and second web pages we used before</p>
+<p>Does the output look right?</p>
+<p>Discuss with table-mates whether you’re getting the same results as before.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_page</span>(____first_URL______)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_page</span>(____second_URL_____)</span></code></pre></div>
 </div>
 <div id="iteration" class="section level2">
 <h2>Iteration</h2>
-<div class="box">
-<p>Work in <code>scripts/03-scrape-page-many.R</code>.</p>
-</div>
 <p>We went from manually scraping individual pages to writing a function to do the same. Next, we will work on making our workflow a little more efficient by using R to iterate over all pages that contain information on the art collection.</p>
-<p><label for="tufte-mn-6" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-6" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Reminder:</strong> The collection has 2970 pieces in total.</span></span></p>
+<p><strong>Reminder:</strong> The collection has 2970 pieces in total.</p>
 <p>That means we give develop a list of URLs (of pages that each have 10 art pieces), and write some code that applies the <code>scrape_page()</code> function to each page, and combines the resulting data frames from each page into a single data frame with 2970 rows and 3 columns.</p>
 <div id="list-of-urls" class="section level3">
 <h3>List of URLs</h3>
@@ -384,64 +493,255 @@ Source: Data Science in a Box by Mine Çetinkaya-Rundel</h4>
 [sometext]offset=30    # Pieces 31-40
 ...
 [sometext]offset=2960  # Pieces 2961-2970</code></pre>
-<p>We can construct these URLs in R by pasting together two pieces: (1) a common (<code>root</code>) text for the beginning of the URL, and (2) numbers starting at 0, increasing by 10, all the way up to 2970. Two new functions are helpful for accomplishing this: <code>glue()</code> for pasting two pieces of text and <code>seq()</code> for generating a sequence of numbers.</p>
-<ol start="6" style="list-style-type: decimal">
-<li>Fill in the blanks to construct the list of URLs.</li>
-</ol>
+<p>We can construct these URLs in R by pasting together two pieces: (1) a common (<code>root</code>) text for the beginning of the URL, and (2) numbers starting at 0, increasing by 10, all the way up to 2970.</p>
+<p>Two new functions are helpful for accomplishing this: <code>glue()</code> for pasting two pieces of text and <code>seq()</code> for generating a sequence of numbers.</p>
+<p>Fill in the blanks to construct the list of URLs.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>root <span class="ot">&lt;-</span> <span class="st">&quot;https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=&quot;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> ___, <span class="at">to =</span> ___, <span class="at">by =</span> ___)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>urls <span class="ot">&lt;-</span> <span class="fu">glue</span>(<span class="st">&quot;{___}{___}&quot;</span>)</span></code></pre></div>
 </div>
 <div id="mapping" class="section level3">
 <h3>Mapping</h3>
-<p>Finally, we’re ready to iterate over the list of URLs we constructed. We will do this by <strong>map</strong>ping the function we developed over the list of URLs. There are a series of mapping functions in R (which we’ll learn about in more detail tomorrow), and they each take the following form:</p>
+<p>Finally, we’re ready to iterate over the list of URLs we constructed. We will do this by <strong>map</strong>ping the function we developed over the list of URLs. There are a series of mapping functions in R, and they each take the following form:</p>
 <pre><code>map([x], [function to apply to each element of x])</code></pre>
 <p>In our case <code>x</code> is the list of URLs we constructed and the function to apply to each element of <code>x</code> is the function we developed earlier, <code>scrape_page</code>. And as a result we want a data frame, so we use <code>map_dfr</code> function:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dfr</span>(urls, scrape_page)</span></code></pre></div>
-<ol start="7" style="list-style-type: decimal">
-<li>Fill in the blanks to scrape all pages, and to create a new data frame called <code>uoe_art</code>.</li>
-</ol>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dfr</span>(urls, scrape_page) <span class="co">#this applies a function to the urls object</span></span></code></pre></div>
+<p>Fill in the blanks to scrape all pages, and to create a new data frame called <code>uoe_art</code>.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>uoe_art <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(__objects_we_want_to_apply_function_to___, ___our_function_name___)</span></code></pre></div>
 </div>
 <div id="write-out-data" class="section level3">
 <h3>Write out data</h3>
-<ol start="8" style="list-style-type: decimal">
-<li>Finally write out the data frame you constructed into the <code>data</code> folder so that you can use it in the analysis section.</li>
-</ol>
-<div class="marker">
-<p>Aim to make it to this point during the workshop.</p>
-</div>
-<p>✅ ⬆️ If you haven’t done so recently, c<em>ommit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.</em></p>
+<p>Finally write out the data frame we constructed into the <code>data</code> folder so that you can use it in the analysis section.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(uoe_art, <span class="at">file =</span> <span class="st">&quot;data/uoe-art.csv&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="analysis" class="section level2">
 <h2>Analysis</h2>
-<div class="box">
-<p>Work in <code>lab-08.Rmd</code> for the rest of the lab.</p>
-</div>
-<p>Now that we have a tidy dataset that we can analyze, let’s do that!</p>
-<p>We’ll start with some data cleaning, to clean up the dates that appear at the end of some title text in parentheses. Some of these are years, others are more specific dates, some art pieces have no date information whatsoever, and others have some non-date information in parentheses. This should be interesting to clean up!</p>
+<p>First, often you would clean up your R and before startign this stage. Let’s do that. In the top right panel, click <em>environment</em>. Next click the little <em>broom</em>. This will clean out your environment. Note that if you did not save code creating something that that something will now be gone.</p>
+<p>Now that we have a tidy dataset that we can analyze, let’s do that! We nead to readin packges and the data we created.</p>
+<div id="load-packages-and-data" class="section level3">
+<h3>Load packages and data</h3>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove eval = FALSE or set it to TRUE once data is ready to be loaded</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>uoe_art <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/uoe-art.csv&quot;</span>)</span></code></pre></div>
+<p>We’ll start with some data cleaning, to clean up the dates that appear at the end of some title text in parentheses. Some of these are years, others are more specific dates, some art pieces have no date information whatsoever, and others have some non-date information in parentheses.</p>
+<p>This should be interesting to clean up!</p>
 <p>First thing we’ll try is to separate the <code>title</code> column into two: one for the actual <code>title</code> and the other for the <code>date</code> if it exists. In human speak, we need to</p>
 <blockquote>
 <p>“separate the <code>title</code> column at the first occurrence of <code>(</code> and put the contents on one side of the <code>(</code> into a column called <code>title</code> and the contents on the other side into a column called <code>date</code>”</p>
 </blockquote>
 <p>Luckily, there’s a function that does just this: <code>separate()</code>!</p>
 <p>And once we have completed separating the single <code>title</code> column into <code>title</code> and <code>date</code>, we need to do further clean-up in the <code>date</code> column to get rid of extraneous <code>)</code>s with <code>str_remove()</code>, capture year information, and save the data as a numeric variable.</p>
-<p><label for="tufte-mn-7" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-7" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Hint:</strong> Remember escaping special characters from yesterday’s lecture? You’ll need to use that trick again.</span></span></p>
-<ol start="9" style="list-style-type: decimal">
-<li>Fill in the blanks in to implement the data wrangling we described above. Note that this will result in some warnings when you run the code, and that’s OK! Read the warnings, and explain what they mean, and why we are ok with leaving them in given that our objective is to just capture <code>year</code> where it’s convenient to do so.</li>
-<li>Print out a summary of the data frame using the <code>skim()</code> function. How many pieces have artist info missing? How many have year info missing?</li>
-<li>Make a histogram of years. Use a reasonable binwidth. Do you see anything out of the ordinary?</li>
-</ol>
-<p><label for="tufte-mn-8" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-8" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Hint:</strong> You’ll want to use <code>mutate()</code> and <code>if_else()</code> or <code>case_when()</code> to implement the correction.</span></span></p>
-<ol start="12" style="list-style-type: decimal">
-<li>Find which piece has the out of the ordinary year and go to its page on the art collection website to find the correct year for it. Can you tell why our code didn’t capture the correct year information? Correct the error in the data frame and visualize the data again.</li>
-</ol>
-<p>🧶 ✅ ⬆️ <em>If you haven’t done so recently, knit, commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.</em></p>
-<ol start="13" style="list-style-type: decimal">
-<li>Who is the most commonly featured artist in the collection? Do you know them? Any guess as to why the university has so many pieces from them?</li>
-</ol>
-<p><label for="tufte-mn-9" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-9" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Hint:</strong> <code>str_subset()</code> can be helful here. You should consider how you might capture titles where the word appears as “child” and “Child”.</span></span></p>
-<ol start="14" style="list-style-type: decimal">
-<li>Final question! How many art pieces have the word “child” in their title? Try to figure it out, and ask for help if you’re stuck.</li>
-</ol>
-<p>🧶 ✅ ⬆️ Knit, <em>commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you’re happy with the final state of your work.</em></p>
+<p><strong>Hint:</strong> Remember escaping special characters from earlier? We’ll need to use that trick again.</p>
+<p>Here we are using our new functions and the separate, mutate, and select dplyr functions we spoke about earlier. Note that this will result in some warnings when you run the code, and that’s OK! Read the warnings, and explain what they mean, and why we are ok with leaving them in given that our objective is to just capture <code>year</code> where it’s convenient to do so.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>uoe_art <span class="ot">&lt;-</span> uoe_art <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(title, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;title&quot;</span>, <span class="st">&quot;date&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">(&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">str_remove</span>(date, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">)&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, artist, year, date)</span></code></pre></div>
+<pre><code>## Warning: Expected 2 pieces. Additional pieces discarded in 39 rows [89, 286,
+## 315, 457, 497, 588, 642, 716, 834, 912, 943, 1031, 1113, 1176, 1250, 1310, 1323,
+## 1453, 1596, 1694, ...].</code></pre>
+<pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 633 rows [22,
+## 23, 26, 29, 37, 54, 70, 75, 82, 88, 90, 95, 102, 107, 110, 115, 122, 124, 129,
+## 144, ...].</code></pre>
+<pre><code>## Warning in str_remove(date, &quot;\\)&quot;) %&gt;% as.numeric(): NAs introduced by coercion</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>uoe_art</span></code></pre></div>
+<pre><code>## # A tibble: 2,980 x 4
+##    title                        artist               year date       
+##    &lt;chr&gt;                        &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;      
+##  1 &quot;Stretching Male Nude &quot;      Valerie Donaldson      NA Circa 1953)
+##  2 &quot;Standing Male Nude &quot;        Thomas T Robertson   1960 1960)      
+##  3 &quot;Wildflowers and Butterfly &quot; John P Busby           NA Circa 1954)
+##  4 &quot;Light Around Limbo &quot;        Joseph Glover        2016 2016)      
+##  5 &quot;Untitled &quot;                  Sarah Sanford        2002 2002)      
+##  6 &quot;Untitled - City Highrise &quot;  William Gillon         NA Feb 1962)  
+##  7 &quot;Untitled &quot;                  Elizabeth M. Hansen  1960 1960)      
+##  8 &quot;Unknown &quot;                   Andrew P. W. Conkie  1958 1958)      
+##  9 &quot;Untitled &quot;                  Richard Easson       1969 1969)      
+## 10 &quot;Abstract Composition &quot;      James T Carlyle      1962 1962)      
+## # ... with 2,970 more rows</code></pre>
+<p>This will print out a summary of the data frame using the <code>skim()</code> function. How many pieces have artist info missing? How many have year info missing?</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(uoe_art)</span></code></pre></div>
+<p><!--
+<caption>--><span class="marginnote shownote">Data summary</span><!--</caption>--></p>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">uoe_art</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">2980</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">4</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">character</td>
+<td align="left">3</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">empty</th>
+<th align="right">n_unique</th>
+<th align="right">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">title</td>
+<td align="right">1</td>
+<td align="right">1.00</td>
+<td align="right">0</td>
+<td align="right">95</td>
+<td align="right">8</td>
+<td align="right">1367</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">artist</td>
+<td align="right">115</td>
+<td align="right">0.96</td>
+<td align="right">2</td>
+<td align="right">55</td>
+<td align="right">0</td>
+<td align="right">1114</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">date</td>
+<td align="right">634</td>
+<td align="right">0.79</td>
+<td align="right">3</td>
+<td align="right">49</td>
+<td align="right">0</td>
+<td align="right">379</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">year</td>
+<td align="right">1399</td>
+<td align="right">0.53</td>
+<td align="right">1964.4</td>
+<td align="right">55.54</td>
+<td align="right">2</td>
+<td align="right">1953</td>
+<td align="right">1962</td>
+<td align="right">1979</td>
+<td align="right">2020</td>
+<td align="left">▁▁▁▁▇</td>
+</tr>
+</tbody>
+</table>
+<p>Next we make a histogram of years. Use a reasonable binwidth. Do you see anything out of the ordinary?</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(uoe_art, <span class="fu">aes</span>(<span class="at">x =</span> year)) <span class="sc">+</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## Warning: Removed 1399 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="data:image/png;base64,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KFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFomyYAOdCVXK6CYcJJwRDgmboGiZZIM6EBXcrUCigknCUeEY+IWKFom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" width="672" /></p>
+<p>Next we need to find which piece has the out of the ordinary year and go to its page on the art collection website to find the correct year for it. Can you tell why our code didn’t capture the correct year information? Correct the error in the data frame and visualize the data again.</p>
+<p>This will give us just the piece with a year less than 1500</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>uoe_art<span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&lt;</span> <span class="dv">1500</span>)  </span></code></pre></div>
+<pre><code>## # A tibble: 1 x 4
+##   title         artist        year date 
+##   &lt;chr&gt;         &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;
+## 1 &quot;Death Mask &quot; H. Dempshall     2 &quot;2) &quot;</code></pre>
+<p>This code changes the year for that one painting to the correct year</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>uoe_art <span class="ot">&lt;-</span> uoe_art <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">ifelse</span>(year <span class="sc">==</span> <span class="dv">2</span>,<span class="dv">1964</span>,year)) </span></code></pre></div>
+<p>Finally, we can see the fix worked</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(uoe_art, <span class="fu">aes</span>(<span class="at">x =</span> year)) <span class="sc">+</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## Warning: Removed 1399 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="data:image/png;base64,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K0FAM9B2JBKWmBDQgbYSBDQDbUciYYkJAR1oK0FAM9B2JBKWmBDQgbYSBDQDbUciYYkJAR1oK0FAM9B2JBKWmBDQgbYSBDQDbUciYYkJAR1oK0FAM9B2JBKWmBDQgbYSBDQDbUciYYkJAR1oK0FAM9B2JBKWmBDQgbYSBDQDbUciYYkJAR1oK0FAM9B2JBKWmBDQgbYSawIKACabArr6pmEPr0BvBO3/yEbCEhNegQ60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCgGWg7EglLTAjoQFsJApqBtiORsMSEgA60lSCg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" width="672" /></p>
+<p>Who is the most commonly featured artist in the collection? Do you know them? Any guess as to why the university has so many pieces from them?</p>
+<p>The <em>count</em> function will simply count the number of rows each artist has in our dataset.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>uoe_art<span class="sc">%&gt;%</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(artist, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1,115 x 2
+##    artist               n
+##    &lt;chr&gt;            &lt;int&gt;
+##  1 Unknown            356
+##  2 Emma Gillies       148
+##  3 &lt;NA&gt;               115
+##  4 John Bellany        22
+##  5 Ann F Ward          19
+##  6 Boris Bucan         17
+##  7 Marjorie Wallace    17
+##  8 Zygmunt Bukowski    17
+##  9 Gordon Bryce        16
+## 10 William Gillon      16
+## # ... with 1,105 more rows</code></pre>
+<p>How many art pieces have the word “child” in their title? Try to figure it out, and ask for help if you’re stuck.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>uoe_art<span class="sc">%&gt;%</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(title,<span class="st">&quot;Child&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 11 x 4
+##    title                                 artist            year date            
+##    &lt;chr&gt;                                 &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;           
+##  1 &quot;Child&#39;s collar. Chinese&quot;             Unknown             NA &lt;NA&gt;            
+##  2 &quot;Untitled - Children Playing &quot;        Monika L I Ueck~  1963 1963)           
+##  3 &quot;Virgin and Child &quot;                   Unknown             NA statuette head ~
+##  4 &quot;Woman with Child and Still Life &quot;    Catherine I. Mc~  1938 1938)           
+##  5 &quot;Virgin and Child &quot;                   Unknown             NA Tondo)          
+##  6 &quot;Child&#39;s chinese headdress&quot;           Unknown             NA &lt;NA&gt;            
+##  7 &quot;Virgin and Child&quot;                    Unknown             NA &lt;NA&gt;            
+##  8 &quot;The Children&#39;s Hour &quot;                Eduardo Luigi P~    NA 1974-1976)      
+##  9 &quot;Figure Composition with Nurse and C~ Edward A. Gage      NA Circa 1950)     
+## 10 &quot;The Sun Dissolves while Man Looks A~ Eduardo Luigi P~    NA &lt;NA&gt;            
+## 11 &quot;Untitled - Portrait of a Woman and ~ William Gillon      NA Feb 1962)</code></pre>
+</div>
 </div>
 </div>
 
