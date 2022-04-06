@@ -17,7 +17,10 @@ This faculty workshop is to introduce Cornell College faculty to R (primarily ti
 | From spicy text-mess to useful text-message(s)			|
 | Questions									|
 
-## Sources: Based on Materials in Data Science in a Box by Mine Çetinkaya-Rundel [HERE](https://datasciencebox.org/)and a workshop by Julia Silge [HERE](https://juliasilge.github.io/tidytext-tutorial/site/)
+## Sources: Based on Materials
+Data Science in a Box by Mine Çetinkaya-Rundel [here](https://datasciencebox.org/)
+
+Workshop by Julia Silge [here](https://juliasilge.github.io/tidytext-tutorial/site/)
 
 ## Other Links
 
@@ -29,4 +32,4 @@ This faculty workshop is to introduce Cornell College faculty to R (primarily ti
 
 [dplyr Animations](https://twitter.com/illustratedbyte/status/1432416532391514113)
 
-Credit: @illustratedbyte
+Credit: \@illustratedbyte
