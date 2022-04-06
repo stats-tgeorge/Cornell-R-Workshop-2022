@@ -4,7 +4,7 @@
 
 [Cornell RStudio Server](http://turing.cornellcollege.edu:8787)
 
-
+# Description
 
 This faculty workshop is to introduce Cornell College faculty to R (primarily tidyverse), RStudio, and the RStudioServer implementation on Cornell's campus. Lastly, faculty will get to practice some basic data manipulation with dplyr functions, webscraping with selector gadget, and basic text analysis. 
 
@@ -17,7 +17,7 @@ This faculty workshop is to introduce Cornell College faculty to R (primarily ti
 | From spicy text-mess to useful text-message(s)			|
 | Questions									|
 
-## Sources: Based on Materials
+## Sources
 Data Science in a Box by Mine Çetinkaya-Rundel [here](https://datasciencebox.org/)
 
 Workshop by Julia Silge [here](https://juliasilge.github.io/tidytext-tutorial/site/)
