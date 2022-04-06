@@ -31,5 +31,3 @@ Workshop by Julia Silge [here](https://juliasilge.github.io/tidytext-tutorial/si
 [Install R Studio](https://www.rstudio.com/products/rstudio/download/)
 
 [dplyr Animations](https://twitter.com/illustratedbyte/status/1432416532391514113)
-
-Credit: \@illustratedbyte
