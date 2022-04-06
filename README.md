@@ -22,10 +22,3 @@ Data Science in a Box by Mine Çetinkaya-Rundel [here](https://datasciencebox.org
 
 Workshop by Julia Silge [here](https://juliasilge.github.io/tidytext-tutorial/site/)
 
-## Other Links
-
-[Selector Gadget Google Chrome Install](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb?hl=en)
-
-[Install R](https://www.r-project.org/)
-
-[Install R Studio](https://www.rstudio.com/products/rstudio/download/)
