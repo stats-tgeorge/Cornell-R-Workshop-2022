@@ -11,7 +11,7 @@ This faculty workshop is to introduce Cornell College faculty to R (primarily ti
 | Workshop Outline								|
 | --------------------------------------------------------- |
 | What is R? Rstudio? RStudioserver? Reproducibility?		|
-| Accessing the powerful *land* of RStudioserver			|
+| Accessing the powerful *land* of RStudio Server			|
 | Introduction to **dplyr** verbs					|
 | Enter **SelectorGadget!**. Web scraping maaaaagic.		|
 | From spicy text-mess to useful text-message(s)			|
