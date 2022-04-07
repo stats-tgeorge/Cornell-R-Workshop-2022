@@ -15,18 +15,17 @@ knitr::opts_chunk$set(eval = TRUE)
 
 The University of Edinburgh Art Collection *"supports the world-leading research and teaching that happens within the University. Comprised of an astonishing range of objects and ideas spanning two millennia and a multitude of artistic forms, the collection reflects not only the long and rich trajectory of the University, but also major national and international shifts in art history."*.
 
-See the collection [here](https://collections.ed.ac.uk/art) and note that there are 2970 pieces in the art collection we're collecting data on. Note that more pieces may have been added or some pieces may have been removed between when this lab was written and when you're working on it.
+See the collection [here](https://collections.ed.ac.uk/art) and note that there are thousands pieces in the art collection we're collecting data on. Note that more pieces may have been added or some pieces may have been removed between when this lab was written and when you're working on it.
 
 
-In this lab we'll scrape data on all art pieces in the [Edinburgh College of Art collection](https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22).
+In this workshop we'll scrape data on all art pieces in the [Edinburgh College of Art collection](https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22).
 
-# Learning goals CHANGE OUT
+# Learning goals
 
--   Working with R scripts
+-   Working with R scripts and Rmd
 -   Web scraping from a single page
 -   Writing functions
 -   Iteration by mapping functions
--   Writing data out
 
 # Lab prep - Everybody in Group at Once
 
@@ -36,9 +35,7 @@ knitr::include_graphics("img/selectorgadget.png")
 
 -   Download and install the SelectorGadget for your browser.
     Once you do, you should now be able to access SelectorGadget by clicking on the icon next to the search bar in your Chrome or Firefox browser.
-
     -   See [here](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb) for Chrome 
-
 -   Read the following on working with R Markdown documents vs. R scripts.
 
 ## R scripts vs. R Markdown documents
@@ -52,32 +49,6 @@ Today we will be using both R scripts and R Markdown documents:
 -   `.Rmd`: R Markdown documents are plain text files containing.
 
     -   We'll use an R Markdown document in the web analysis stage, where we start off by reading in the csv file we wrote out in the scraping stage.
-
-Here is the organization of your files, and the corresponding section in this document that each file will be used for:
-
-```{=plain}
-|-data
-|  |- README.md
-|-lab-06-uoe-art.Rmd              # analysis
-|-lab-06-uoe-art.Rproj
-|-README.md
-|-scripts                         # webscraping
-|  |- 01-scrape-page-one.R        # scraping a single page
-|  |- 02-scrape-page-function.R   # functions
-|  |- 03-scrape-page-many.R       # iteration
-```
-# Getting started
-
-Have the starting group member go to the course GitHub organization and locate the lab 08 repo, clone it in RStudio and open the R Markdown document.
-Knit the document to make sure it compiles without errors.
-
-## Warm up
-
-Let's warm up with some simple exercises.
-Update the YAML of your R Markdown file with your information, knit, commit, and push your changes.
-Make sure to commit with a meaningful commit message.
-Then, go to your repo on GitHub and confirm that your changes are visible in your Rmd **and** md files.
-If anything is missing, commit and push again.
 
 ## Packages
 
@@ -93,15 +64,15 @@ library(rvest)
 
 ## Data
 
-This assignment does not come with any prepared datasets.
+This workshop does not come with any prepared datasets.
 Instead you'll be scraping the data!
+
 But before doing so, let's check that a bot has permissions to access pages on this domain.
 
 ```{r paths-allowed, warning=FALSE}
 paths_allowed("https://collections.ed.ac.uk/artn")
 ```
 
-# Exercises
 
 ## Scraping a single page
 
@@ -450,7 +421,7 @@ uoe_art <- map_dfr(__objects_we_want_to_apply_function_to___, ___our_function_na
 
 Now, for later use, I really want the items description. This information is not available on the search page like the other information we gather but it is available on each items individual page, which you created the links for. 
 
-```{r scape_description}
+```{r scape_description, eval =F}
 add_description <- function(indv_page_url){
     read_html(indv_page_url) %>%
             html_node("tr:nth-child(5) span") %>%
@@ -680,7 +651,7 @@ tidy_ngram
 
 What found do we use to count items? 
 
-```{r}
+```{r,eval=F}
 tidy_ngram %>%
   ____(bigram,sort = T)       #<
 ```
